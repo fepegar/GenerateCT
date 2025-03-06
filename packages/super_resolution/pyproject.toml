@@ -1,0 +1,32 @@
+[project]
+name = "super-resolution"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "accelerate",
+    "beartype",
+    "click",
+    "datasets",
+    "einops",
+    "einops-exts",
+    "ema-pytorch>=0.0.3",
+    "fsspec",
+    "kornia",
+    "numpy",
+    "packaging",
+    "pillow",
+    "pydantic",
+    "pytorch-lightning",
+    "pytorch-warmup",
+    "sentencepiece",
+    "torch>=1.6",
+    "torchvision",
+    "transformers",
+    "tqdm",
+    "omegaconf",
+    "appdirs",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

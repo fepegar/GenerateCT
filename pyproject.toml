@@ -1,0 +1,30 @@
+[project]
+name = "generate-ct"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "huggingface-hub[cli]>=0.28.1",
+    "super_resolution",
+    "transformer_maskgit",
+]
+
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "ipywidgets>=8.1.5",
+]
+
+[tool.uv.sources]
+super_resolution = { workspace = true }
+transformer_maskgit = { workspace = true }
+
+[tool.uv.workspace]
+members = [
+    "packages/super_resolution",
+    "packages/transformer_maskgit",
+]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"

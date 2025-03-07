@@ -753,7 +753,7 @@ class ElucidatedSuperres(nn.Module):
         assert images.dtype == torch.float, f'images tensor needs to be floats but {images.dtype} dtype found instead'
 
         unet_index = unet_number - 1
-        
+
         unet = default(unet, lambda: self.get_unet(unet_number))
 
         assert not isinstance(unet, NullUnet), 'null unet cannot and should not be trained'

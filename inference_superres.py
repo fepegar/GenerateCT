@@ -63,7 +63,6 @@ def update_config_with_arg(args, config):
     if args.bs != -1:
         config.dataloader.params.batch_size = args.bs
         config.dataloader.params.num_workers = min(args.bs, os.cpu_count())
-        print(config.dataloader.params.num_workers)
         config.checkpoint.batch_size = min(args.bs, config.checkpoint.batch_size)
 
     if args.lr != -1:
@@ -192,4 +191,3 @@ if __name__ == "__main__":
             additional_data = {
                 "time_elapsed": time.time() - start_time,
             }
-

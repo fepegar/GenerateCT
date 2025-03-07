@@ -134,9 +134,9 @@ class TransformerTrainer(nn.Module):
             self.print(f'training with dataset of {len(self.ds)} samples and validating with randomly splitted {len(self.valid_ds)} samples')
         list_train=[]
         list_val=[]
-        for i in range(len(self.ds)): 
+        for i in range(len(self.ds)):
             list_train.append(self.ds.dataset.paths[self.ds.indices[i]])
-        for i in range(len(self.valid_ds)): 
+        for i in range(len(self.valid_ds)):
             list_val.append(self.valid_ds.dataset.paths[self.valid_ds.indices[i]])
 
         with open("train_transformer.txt", "w") as f:
@@ -187,8 +187,8 @@ class TransformerTrainer(nn.Module):
             self.optim,
             self.lr_scheduler
         )
-        
-        
+
+
 
 
         #self.dl_iter = cycle(self.dl_iter)
@@ -202,8 +202,8 @@ class TransformerTrainer(nn.Module):
         if len([*self.results_folder.glob('**/*')]) > 0 and yes_or_no('do you want to clear previous experiment checkpoints and results?'):
             rmtree(str(self.results_folder))
 
-        self.results_folder.mkdir(parents=True, exist_ok=True) 
-        """     
+        self.results_folder.mkdir(parents=True, exist_ok=True)
+        """
         train_len = int(len(dataset) * 0.8)
         val_len = len(dataset) - train_len
         self.ds, self.valid_ds = random_split(dataset, [train_len, val_len])
@@ -218,7 +218,7 @@ class TransformerTrainer(nn.Module):
         self.dl = DataLoader(self.ds, batch_size=batch_size, sampler=train_sampler)
         self.valid_dl = DataLoader(self.valid_ds, batch_size=batch_size, sampler=val_sampler)
         """
-        
+
 
 
     def save(self, path):
@@ -261,7 +261,6 @@ class TransformerTrainer(nn.Module):
 
         # update maskgittransformer model
         video, text = next(self.dl_iter)
-        print(video.shape)
         device=self.device
         video=video.to(device)
         mask = torch.ones((video.shape[0], video.shape[2])).bool().to(device)
@@ -282,8 +281,8 @@ class TransformerTrainer(nn.Module):
         self.optim.zero_grad()
         self.print(f"{steps}: loss: {logs['loss']}")
 
-       
-    
+
+
         if self.is_main and not (steps % self.save_results_every):
             with torch.no_grad():
 
@@ -302,7 +301,7 @@ class TransformerTrainer(nn.Module):
 
                     if "module" in model.__dict__:
                         model = model.module
-                        
+
                     recons = model.sample(texts =text, num_frames = 201, cond_scale = 5.) # (1, 3, 17, 256, 128)
 
 
@@ -314,8 +313,6 @@ class TransformerTrainer(nn.Module):
                     (sampled_videos_path).mkdir(parents = True, exist_ok = True)
                     i=0
                     for tensor in recons.unbind(dim = 0):
-                        print(tensor.shape)
-                        print(valid_data[0].shape)
                         tensor_to_nifti(tensor, str(sampled_videos_path / f'{filename}_{i}.nii.gz'))
                         tensor_to_nifti(valid_data[0], str(sampled_videos_path / f'{filename}_{i}_input.nii.gz'))
                         i=i+1
@@ -324,7 +321,7 @@ class TransformerTrainer(nn.Module):
                         file.write(text[0])
 
                 self.print(f'{steps}: saving to {str(self.results_folder)}')
-    
+
         # save model every so often
 
         if self.is_main and not (steps % self.save_model_every):

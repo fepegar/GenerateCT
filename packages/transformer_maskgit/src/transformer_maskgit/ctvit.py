@@ -308,7 +308,7 @@ class CTViT(nn.Module):
             nn.Linear(dim, channels * patch_width * patch_height * temporal_patch_size),
             Rearrange('b t h w (c pt p1 p2) -> b c (t pt) (h p1) (w p2)', p1 = patch_height, p2 = patch_width, pt = temporal_patch_size),
         )
-        
+
         # turn off GAN and perceptual loss if grayscale
 
         self.vgg = None
@@ -501,7 +501,6 @@ class CTViT(nn.Module):
         assert video.ndim in {4, 5}
 
         is_image = video.ndim == 4
-        print(video.shape)
 
         if is_image:
             video = rearrange(video, 'b c h w -> b c 1 h w')
@@ -587,7 +586,7 @@ class CTViT(nn.Module):
             #recon_video = transform(recon_video)
             #video = transform(video)
 
-            
+
             print("TEST")
             print(recon_video.shape)
 
@@ -620,9 +619,9 @@ class CTViT(nn.Module):
         #transform = T.Compose([T.Resize(256)])
         #input_vgg_input = transform(input_vgg_input)
         #recon_vgg_input=transform(recon_vgg_input)
-        
+
         # handle grayscale for vgg
-        
+
         if video.shape[1] == 1:
             input_vgg_input2, recon_vgg_input2 = map(lambda t: repeat(t, 'b 1 ... -> b c ...', c = 3), (input_vgg_input, recon_vgg_input))
         #transform = T.Compose([T.Resize(256)])

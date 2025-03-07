@@ -1544,8 +1544,6 @@ class Unet(nn.Module):
 
         assert not (self.lowres_cond and not exists(lowres_cond_img)), 'low resolution conditioning image must be present'
         assert not (self.lowres_cond and not exists(lowres_noise_times)), 'low resolution conditioning noise time must be present'
-        print(x.shape)
-        print(lowres_cond_img.shape)
         if exists(lowres_cond_img.shape):
             x = torch.cat((x, lowres_cond_img), dim = 1)
 
@@ -2307,7 +2305,7 @@ class Superres(nn.Module):
         device = None,
         use_tqdm = True
     ):
-        
+
         device = default(device, self.device)
         self.reset_unets_all_one_device(device = device)
 
@@ -2408,7 +2406,6 @@ class Superres(nn.Module):
 
                 lowres_cond_img = lowres_noise_times = None
                 shape = (batch_size, channel, *frame_dims, image_size, image_size)
-                print(shape)
                 resize_kwargs = dict(target_frames = frame_dims[0]) if self.is_video else dict()
 
                 if unet.lowres_cond:
